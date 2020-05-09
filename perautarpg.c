@@ -13,85 +13,14 @@
 #define MIN_Y_LIMITATION 24
 #define SCROLL_MOVE 8
 
-int spriteX = 16, spriteY = 24;
-int mapX = 152, mapY = 144;
-int i = 0, spriteBackupX = 0, spriteBackupY = 0;
-unsigned int menuPos = 0;
-
-void showWindow() {
-	
-	while(1) {
-		if(joypad() == J_START) {
-			menuPos = 0;
-			spriteX = spriteBackupX;
-			spriteY = spriteBackupY;
-			
-			set_sprite_data(0, tileset1Len, tileset1);
-			set_sprite_tile(0, 14);
-			move_sprite(0, spriteX, spriteY);
-			
-			spriteBackupX = 0;
-			spriteBackupY = 0;
-			
-			HIDE_WIN;
-			break;
-		}
-		
-		if(joypad() == J_DOWN || joypad() == J_UP) {
-			switch(menuPos) {
-				case 0:
-					spriteY += 8;
-					menuPos = 2;
-					move_sprite(0, spriteX, spriteY);
-					break;
-				case 1:
-					spriteY += 8;
-					menuPos = 3;
-					move_sprite(0, spriteX, spriteY);
-					break;
-				case 2:
-					spriteY -= 8;
-					menuPos = 0;
-					move_sprite(0, spriteX, spriteY);
-					break;
-				case 3:
-					spriteY -= 8;
-					menuPos = 0;
-					menuPos = 1;
-					move_sprite(0, spriteX, spriteY);
-			}
-		}
-		
-		if(joypad() == J_RIGHT || joypad() == J_LEFT) {
-			switch(menuPos) {
-				case 0:
-					spriteX += 72;
-					menuPos = 1;
-					move_sprite(0, spriteX, spriteY);
-					break;
-				case 1:
-					spriteX -= 72;
-					menuPos = 0;
-					move_sprite(0, spriteX, spriteY);
-					break;
-				case 2:
-					spriteX += 72;
-					menuPos = 3;
-					move_sprite(0, spriteX, spriteY);
-					break;
-				case 3:
-					spriteX -= 72;
-					menuPos = 0;
-					menuPos = 2;
-					move_sprite(0, spriteX, spriteY);
-			}
-			
-		}
-		delay(100);
-	}
-}
-
 void main() {
+	
+	int spriteX = 16, spriteY = 24;
+	int mapX = 152, mapY = 144;
+	int i = 0, spriteBackupX = 0, spriteBackupY = 0;
+	
+	UBYTE menuPos = 0;
+	UBYTE currentKey;
 	
 	DISPLAY_OFF;
 	
@@ -115,7 +44,10 @@ void main() {
 	DISPLAY_ON;
 	
 	while(1) {
-		if (joypad() == J_RIGHT) {
+		
+		currentKey = joypad();
+		
+		if (currentKey == J_RIGHT) {
 			if (spriteX < MAX_X_LIMITATION) {
 				spriteX += SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
@@ -126,7 +58,7 @@ void main() {
 				}
 			}
 		}
-		if (joypad() == J_LEFT) {
+		if (currentKey == J_LEFT) {
 			if(spriteX > MIN_X_LIMITATION) {
 				spriteX -= SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
@@ -137,7 +69,7 @@ void main() {
 				}
 			}
 		}
-		if (joypad() == J_UP) {
+		if (currentKey == J_UP) {
 			if(spriteY > MIN_Y_LIMITATION) {
 				spriteY -= SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
@@ -148,7 +80,7 @@ void main() {
 				}
 			}
 		}
-		if (joypad() == J_DOWN) {
+		if (currentKey == J_DOWN) {
 			if(spriteY < MAX_Y_LIMITATION) {
 				spriteY += SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
@@ -159,7 +91,7 @@ void main() {
 				}
 			}
 		}
-		if (joypad() == J_START) {
+		if (currentKey == J_START) {
 			
 			spriteBackupX = spriteX;
 			spriteBackupY = spriteY;
@@ -175,12 +107,81 @@ void main() {
 			move_win(7,112);
 			SHOW_WIN;
 			
-			delay(100);
+			delay(50);
 			
-			showWindow();
+			while(1) {
+				currentKey = joypad();
+				if(currentKey == J_START) {
+					menuPos = 0;
+					spriteX = spriteBackupX;
+					spriteY = spriteBackupY;
+					
+					set_sprite_data(0, tileset1Len, tileset1);
+					set_sprite_tile(0, 14);
+					move_sprite(0, spriteX, spriteY);
+					
+					spriteBackupX = 0;
+					spriteBackupY = 0;
+					
+					HIDE_WIN;
+					break;
+				}
+				
+				if(currentKey == J_DOWN || currentKey == J_UP) {
+					switch(menuPos) {
+						case 0:
+							spriteY += 8;
+							menuPos = 2;
+							move_sprite(0, spriteX, spriteY);
+							break;
+						case 1:
+							spriteY += 8;
+							menuPos = 3;
+							move_sprite(0, spriteX, spriteY);
+							break;
+						case 2:
+							spriteY -= 8;
+							menuPos = 0;
+							move_sprite(0, spriteX, spriteY);
+							break;
+						case 3:
+							spriteY -= 8;
+							menuPos = 1;
+							move_sprite(0, spriteX, spriteY);
+							break;
+					}
+				}
+				
+				if(currentKey == J_RIGHT || currentKey == J_LEFT) {
+					switch(menuPos) {
+						case 0:
+							spriteX += 72;
+							menuPos = 1;
+							move_sprite(0, spriteX, spriteY);
+							break;
+						case 1:
+							spriteX -= 72;
+							menuPos = 0;
+							move_sprite(0, spriteX, spriteY);
+							break;
+						case 2:
+							spriteX += 72;
+							menuPos = 3;
+							move_sprite(0, spriteX, spriteY);
+							break;
+						case 3:
+							spriteX -= 72;
+							menuPos = 2;
+							move_sprite(0, spriteX, spriteY);
+							break;
+					}
+					
+				}
+				delay(100);
+			}
 
 		}
-		delay(250);
+		delay(100);
 	}
 
 }
