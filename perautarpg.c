@@ -11,6 +11,7 @@
 #define MIN_X_LIMITATION 16
 #define MAX_Y_LIMITATION 152
 #define MIN_Y_LIMITATION 24
+#define SCROLL_MOVE 8
 
 void main() {
 	
@@ -38,45 +39,45 @@ void main() {
 	while(1) {
 		if (joypad() == J_RIGHT) {
 			if (spriteX < MAX_X_LIMITATION) {
-				spriteX += 8;
+				spriteX += SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
 			} else {
 				if (mapX < ((map1Width - 1) * 8)) {
-					mapX += 8;
-					scroll_bkg(8, 0);
+					mapX += SCROLL_MOVE;
+					scroll_bkg(SCROLL_MOVE, 0);
 				}
 			}
 		}
 		if (joypad() == J_LEFT) {
 			if(spriteX > MIN_X_LIMITATION) {
-				spriteX -= 8;
+				spriteX -= SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
 			} else {
 				if (mapX > 160) {
-					mapX -= 8;
-					scroll_bkg(-8, 0);
+					mapX -= SCROLL_MOVE;
+					scroll_bkg(-SCROLL_MOVE, 0);
 				}
 			}
 		}
 		if (joypad() == J_UP) {
 			if(spriteY > MIN_Y_LIMITATION) {
-				spriteY -= 8;
+				spriteY -= SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
 			} else {
 				if(mapY > 152) {
-					mapY -= 8;
-					scroll_bkg(0, -8);
+					mapY -= SCROLL_MOVE;
+					scroll_bkg(0, -SCROLL_MOVE);
 				}
 			}
 		}
 		if (joypad() == J_DOWN) {
 			if(spriteY < MAX_Y_LIMITATION) {
-				spriteY += 8;
+				spriteY += SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
 			} else {
-				if(mapY < (map1Height * 8)) {
-					mapY += 8;
-					scroll_bkg(0, 8);
+				if(mapY < (map1Height * SCROLL_MOVE)) {
+					mapY += SCROLL_MOVE;
+					scroll_bkg(0, SCROLL_MOVE);
 				}
 			}
 		}
