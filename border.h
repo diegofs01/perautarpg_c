@@ -12,9 +12,9 @@
   Tile size            : 8 x 8
   Tiles                : 0 to 35
 
-  Palette colors       : None.
+  Palette colors       : Included.
   SGB Palette          : None.
-  CGB Palette          : None.
+  CGB Palette          : Constant per entry.
 
   Convert to metatiles : No.
 
@@ -25,6 +25,116 @@
 
 /* Bank of tiles. */
 #define borderBank 0
+
+/* Super Gameboy palette 0 */
+#define borderSGBPal0c0 6076
+#define borderSGBPal0c1 8935
+#define borderSGBPal0c2 6596
+#define borderSGBPal0c3 5344
+
+/* Super Gameboy palette 1 */
+#define borderSGBPal1c0 6076
+#define borderSGBPal1c1 8935
+#define borderSGBPal1c2 6596
+#define borderSGBPal1c3 5344
+
+/* Super Gameboy palette 2 */
+#define borderSGBPal2c0 6076
+#define borderSGBPal2c1 8935
+#define borderSGBPal2c2 6596
+#define borderSGBPal2c3 5344
+
+/* Super Gameboy palette 3 */
+#define borderSGBPal3c0 6076
+#define borderSGBPal3c1 8935
+#define borderSGBPal3c2 6596
+#define borderSGBPal3c3 5344
+
+/* Gameboy Color palette 0 */
+#define borderCGBPal0c0 992
+#define borderCGBPal0c1 512
+#define borderCGBPal0c2 32767
+#define borderCGBPal0c3 0
+
+/* Gameboy Color palette 1 */
+#define borderCGBPal1c0 6076
+#define borderCGBPal1c1 8935
+#define borderCGBPal1c2 6596
+#define borderCGBPal1c3 5344
+
+/* Gameboy Color palette 2 */
+#define borderCGBPal2c0 6076
+#define borderCGBPal2c1 8935
+#define borderCGBPal2c2 6596
+#define borderCGBPal2c3 5344
+
+/* Gameboy Color palette 3 */
+#define borderCGBPal3c0 6076
+#define borderCGBPal3c1 8935
+#define borderCGBPal3c2 6596
+#define borderCGBPal3c3 5344
+
+/* Gameboy Color palette 4 */
+#define borderCGBPal4c0 6076
+#define borderCGBPal4c1 8935
+#define borderCGBPal4c2 6596
+#define borderCGBPal4c3 5344
+
+/* Gameboy Color palette 5 */
+#define borderCGBPal5c0 6076
+#define borderCGBPal5c1 8935
+#define borderCGBPal5c2 6596
+#define borderCGBPal5c3 5344
+
+/* Gameboy Color palette 6 */
+#define borderCGBPal6c0 6076
+#define borderCGBPal6c1 8935
+#define borderCGBPal6c2 6596
+#define borderCGBPal6c3 5344
+
+/* Gameboy Color palette 7 */
+#define borderCGBPal7c0 6076
+#define borderCGBPal7c1 8935
+#define borderCGBPal7c2 6596
+#define borderCGBPal7c3 5344
+
+/* CGB palette entries. */
+#define borderCGB0 0
+#define borderCGB1 0
+#define borderCGB2 0
+#define borderCGB3 0
+#define borderCGB4 0
+#define borderCGB5 0
+#define borderCGB6 0
+#define borderCGB7 0
+#define borderCGB8 0
+#define borderCGB9 0
+#define borderCGB10 0
+#define borderCGB11 0
+#define borderCGB12 0
+#define borderCGB13 0
+#define borderCGB14 0
+#define borderCGB15 0
+#define borderCGB16 0
+#define borderCGB17 0
+#define borderCGB18 0
+#define borderCGB19 0
+#define borderCGB20 0
+#define borderCGB21 0
+#define borderCGB22 0
+#define borderCGB23 0
+#define borderCGB24 0
+#define borderCGB25 0
+#define borderCGB26 0
+#define borderCGB27 0
+#define borderCGB28 0
+#define borderCGB29 0
+#define borderCGB30 0
+#define borderCGB31 0
+#define borderCGB32 0
+#define borderCGB33 0
+#define borderCGB34 0
+#define borderCGB35 0
 /* Start of tile array. */
 extern unsigned char border[];
 #define borderLen 36

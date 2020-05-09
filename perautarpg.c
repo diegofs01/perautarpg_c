@@ -1,5 +1,8 @@
 #include <gb/gb.h> 
+#include <gb/cgb.h> 
 #include <stdio.h>
+
+#include "palettes.h"
 
 #include "border.h"
 #include "window.h"
@@ -24,13 +27,9 @@ void main() {
 	
 	DISPLAY_OFF;
 	
-	SPRITES_8x8;
-	set_sprite_data(0, tileset1Len, tileset1);
-	set_sprite_tile(0, 14);
-	move_sprite(0, spriteX, spriteY);
-	
+	set_bkg_palette(0, 8, map1Palette);
 	set_bkg_data(0, tileset1Len, tileset1);
-	set_bkg_tiles(0, 0, map1Width, map1Height, map1);
+	set_bkg_tiles(0, 0, map1Width, map1Height, map1);	
 	
 	while(i < (windowWidth * windowHeight)) {
 		window[i] += tileset1Len;
@@ -38,6 +37,12 @@ void main() {
 	}
 	set_win_data(tileset1Len, borderLen, border);
 	set_win_tiles(0, 0, windowWidth, windowHeight, window);
+	
+	SPRITES_8x8;
+	set_sprite_palette(0, 1, spritePalette);
+	set_sprite_data(0, tileset1Len, tileset1);
+	set_sprite_tile(0, 14);
+	move_sprite(0, spriteX, spriteY);
 	
 	SHOW_BKG;
 	SHOW_SPRITES;
