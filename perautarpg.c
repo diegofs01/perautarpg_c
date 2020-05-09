@@ -7,11 +7,16 @@
 #include "map1.h"
 #include "tileset1.h"
 
+#define MAX_X_LIMITATION 160
+#define MIN_X_LIMITATION 16
+#define MAX_Y_LIMITATION 152
+#define MIN_Y_LIMITATION 24
+
 void main() {
 	
-	int spriteX = 16, spriteY = 24;
-	int mapX = 152, mapY = 144;
-	int windowActive = 0;
+	unsigned short spriteX = 16, spriteY = 24;
+	unsigned short mapX = 152, mapY = 144;
+	unsigned short windowActive = 0;
 	
 	DISPLAY_OFF;
 	
@@ -32,7 +37,7 @@ void main() {
 	
 	while(1) {
 		if (joypad() == J_RIGHT) {
-			if (spriteX < 160) {
+			if (spriteX < MAX_X_LIMITATION) {
 				spriteX += 8;
 				move_sprite(0, spriteX, spriteY);
 			} else {
@@ -43,7 +48,7 @@ void main() {
 			}
 		}
 		if (joypad() == J_LEFT) {
-			if(spriteX > 16) {
+			if(spriteX > MIN_X_LIMITATION) {
 				spriteX -= 8;
 				move_sprite(0, spriteX, spriteY);
 			} else {
@@ -54,7 +59,7 @@ void main() {
 			}
 		}
 		if (joypad() == J_UP) {
-			if(spriteY > 24) {
+			if(spriteY > MIN_Y_LIMITATION) {
 				spriteY -= 8;
 				move_sprite(0, spriteX, spriteY);
 			} else {
@@ -65,7 +70,7 @@ void main() {
 			}
 		}
 		if (joypad() == J_DOWN) {
-			if(spriteY < 152) {
+			if(spriteY < MAX_Y_LIMITATION) {
 				spriteY += 8;
 				move_sprite(0, spriteX, spriteY);
 			} else {
