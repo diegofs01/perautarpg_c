@@ -107,7 +107,7 @@ void main() {
 			move_win(7,112);
 			SHOW_WIN;
 			
-			delay(50);
+			delay(150);
 			
 			while(1) {
 				currentKey = joypad();
@@ -177,11 +177,11 @@ void main() {
 					}
 					
 				}
-				delay(100);
+				delay(150);
 			}
 
 		}
-		delay(100);
+		delay(150);
 	}
 
 }
