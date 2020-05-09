@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : Tile-count as Constant.
   Tile size            : 8 x 8
-  Tiles                : 0 to 8
+  Tiles                : 0 to 35
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -27,6 +27,6 @@
 #define borderBank 0
 /* Start of tile array. */
 extern unsigned char border[];
-#define borderLen 9
+#define borderLen 36
 
 /* End of BORDER.H */
