@@ -14,9 +14,9 @@
 
 void main() {
 	
-	unsigned short spriteX = 16, spriteY = 24;
-	unsigned short mapX = 152, mapY = 144;
-	unsigned short windowActive = 0;
+	int spriteX = 16, spriteY = 24;
+	int mapX = 152, mapY = 144;
+	int windowActive = 0;
 	
 	DISPLAY_OFF;
 	
