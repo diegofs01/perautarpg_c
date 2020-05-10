@@ -47,7 +47,7 @@ void main() {
 		
 		currentKey = joypad();
 		
-		if (currentKey == J_RIGHT) {
+		if (currentKey & J_RIGHT) {
 			if (spriteX < MAX_X_LIMITATION) {
 				spriteX += SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
@@ -58,7 +58,7 @@ void main() {
 				}
 			}
 		}
-		if (currentKey == J_LEFT) {
+		if (currentKey & J_LEFT) {
 			if(spriteX > MIN_X_LIMITATION) {
 				spriteX -= SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
@@ -69,7 +69,7 @@ void main() {
 				}
 			}
 		}
-		if (currentKey == J_UP) {
+		if (currentKey & J_UP) {
 			if(spriteY > MIN_Y_LIMITATION) {
 				spriteY -= SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
@@ -80,7 +80,7 @@ void main() {
 				}
 			}
 		}
-		if (currentKey == J_DOWN) {
+		if (currentKey & J_DOWN) {
 			if(spriteY < MAX_Y_LIMITATION) {
 				spriteY += SCROLL_MOVE;
 				move_sprite(0, spriteX, spriteY);
@@ -91,7 +91,7 @@ void main() {
 				}
 			}
 		}
-		if (currentKey == J_START) {
+		if (currentKey & J_START) {
 			
 			spriteBackupX = spriteX;
 			spriteBackupY = spriteY;
@@ -111,7 +111,7 @@ void main() {
 			
 			while(1) {
 				currentKey = joypad();
-				if(currentKey == J_START) {
+				if(currentKey & J_START) {
 					menuPos = 0;
 					spriteX = spriteBackupX;
 					spriteY = spriteBackupY;
@@ -127,7 +127,7 @@ void main() {
 					break;
 				}
 				
-				if(currentKey == J_DOWN || currentKey == J_UP) {
+				if( (currentKey & J_DOWN) || (currentKey & J_UP) ) {
 					switch(menuPos) {
 						case 0:
 							spriteY += 8;
@@ -152,7 +152,7 @@ void main() {
 					}
 				}
 				
-				if(currentKey == J_RIGHT || currentKey == J_LEFT) {
+				if( (currentKey & J_RIGHT) || (currentKey & J_LEFT)) {
 					switch(menuPos) {
 						case 0:
 							spriteX += 72;
