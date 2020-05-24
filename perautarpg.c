@@ -4,11 +4,8 @@
 
 #include "palettes.h"
 
-#include "border.h"
-#include "window.h"
-
-#include "map1.h"
-#include "tileset1.h"
+#include "assets/tilesets/exterior_01.h"
+#include "assets/maps/town_01.h"
 
 #define MAX_X_LIMITATION 160
 #define MIN_X_LIMITATION 16
@@ -50,7 +47,7 @@ void captureInput() {
 			player[PLAYER_POSITION_X] += SCROLL_MOVE;
 			move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
 		} else {
-			if (mapX < ((map1Width - 1) * 8)) {
+			if (mapX < ((town_01Width - 1) * 8)) {
 				mapX += SCROLL_MOVE;
 				scroll_bkg(SCROLL_MOVE, 0);
 			}
@@ -83,14 +80,15 @@ void captureInput() {
 			player[PLAYER_POSITION_Y] += SCROLL_MOVE;
 			move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
 		} else {
-			if(mapY < (map1Height * SCROLL_MOVE)) {
+			if(mapY < (town_01Height * SCROLL_MOVE)) {
 				mapY += SCROLL_MOVE;
 				scroll_bkg(0, SCROLL_MOVE);
 			}
 		}
 	}
 	
-	if (currentKey & J_START) {
+	//Arrumar depois (Diego)
+	/* if (currentKey & J_START) {
 			
 			spriteBackupX = player[PLAYER_POSITION_X];
 			spriteBackupY = player[PLAYER_POSITION_X];
@@ -179,7 +177,7 @@ void captureInput() {
 				delay(150);
 			}
 
-		}
+		} */
 }
 
 void init() {
@@ -189,21 +187,21 @@ void init() {
 	
 	DISPLAY_OFF;
 	
-	set_bkg_palette(0, 8, map1Palette);
-	set_bkg_data(0, tileset1Len, tileset1);
-	set_bkg_tiles(0, 0, map1Width, map1Height, map1);	
+	set_bkg_palette(0, 8, exterior_01_palettes);
+	set_bkg_data(0, exterior_01Len, exterior_01);
+	set_bkg_tiles(0, 0, town_01Width, town_01Height, town_01);	
 	
-	while(i < (windowWidth * windowHeight)) {
-		window[i] += tileset1Len;
+/* 	while(i < (windowWidth * windowHeight)) {
+		window[i] += exterior_01Len;
 		i++;
 	}
 	set_win_data(tileset1Len, borderLen, border);
-	set_win_tiles(0, 0, windowWidth, windowHeight, window);
+	set_win_tiles(0, 0, windowWidth, windowHeight, window); */
 	
 	SPRITES_8x8;
-	set_sprite_palette(0, 1, spritePalette);
-	set_sprite_data(0, tileset1Len, tileset1);
-	set_sprite_tile(0, 14);
+	set_sprite_palette(0, 8, exterior_01_palettes);
+	set_sprite_data(0, exterior_01Len, exterior_01);
+	set_sprite_tile(0, 1);
 	move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
 	
 	SHOW_BKG;
