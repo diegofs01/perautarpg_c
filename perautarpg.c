@@ -16,9 +16,32 @@
 #define PLAYER_POSITION_X 0
 #define PLAYER_POSITION_Y 1
 
+unsigned char colisionTest[400] = { 
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+ };
+
 int player[2];
 
-int mapX = 152, mapY = 144;
+int mapX = 152, mapY = 144, end;
 int i = 0, spriteBackupX = 0, spriteBackupY = 0;
 	
 UBYTE menuPos = 0;
@@ -26,6 +49,7 @@ UBYTE currentKey;
 
 void init();
 void captureInput();
+char checkColision(int x, int y);
 
 void main() {
 	
@@ -44,8 +68,10 @@ void captureInput() {
 		
 	if (currentKey & J_RIGHT) {
 		if (player[PLAYER_POSITION_X] < MAX_X_LIMITATION) {
-			player[PLAYER_POSITION_X] += SCROLL_MOVE;
-			move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			if(!checkColision(player[PLAYER_POSITION_X] + 8, player[PLAYER_POSITION_Y]) ) {
+				player[PLAYER_POSITION_X] += SCROLL_MOVE;
+				move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			}
 		} else {
 			if (mapX < ((town_01Width - 1) * 8)) {
 				mapX += SCROLL_MOVE;
@@ -55,8 +81,10 @@ void captureInput() {
 	}
 	if (currentKey & J_LEFT) {
 		if(player[PLAYER_POSITION_X] > MIN_X_LIMITATION) {
-			player[PLAYER_POSITION_X] -= SCROLL_MOVE;
-			move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			if(!checkColision(player[PLAYER_POSITION_X] - 8, player[PLAYER_POSITION_Y]) ) {
+				player[PLAYER_POSITION_X] -= SCROLL_MOVE;
+				move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			}
 		} else {
 			if (mapX > 160) {
 				mapX -= SCROLL_MOVE;
@@ -66,8 +94,10 @@ void captureInput() {
 	}
 	if (currentKey & J_UP) {
 		if(player[PLAYER_POSITION_Y] > MIN_Y_LIMITATION) {
-			player[PLAYER_POSITION_Y] -= SCROLL_MOVE;
-			move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			if(!checkColision(player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y] - 8) ) {
+				player[PLAYER_POSITION_Y] -= SCROLL_MOVE;
+				move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			}
 		} else {
 			if(mapY > 152) {
 				mapY -= SCROLL_MOVE;
@@ -77,8 +107,10 @@ void captureInput() {
 	}
 	if (currentKey & J_DOWN) {
 		if(player[PLAYER_POSITION_Y] < MAX_Y_LIMITATION) {
-			player[PLAYER_POSITION_Y] += SCROLL_MOVE;
-			move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			if(!checkColision(player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y] + 8) ) {
+				player[PLAYER_POSITION_Y] += SCROLL_MOVE;
+				move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			}
 		} else {
 			if(mapY < (town_01Height * SCROLL_MOVE)) {
 				mapY += SCROLL_MOVE;
@@ -182,8 +214,8 @@ void captureInput() {
 
 void init() {
 	
-	player[PLAYER_POSITION_X] = 16;
-	player[PLAYER_POSITION_Y] = 24;
+	player[PLAYER_POSITION_X] = 70;
+	player[PLAYER_POSITION_Y] = 100;
 	
 	DISPLAY_OFF;
 	
@@ -207,4 +239,10 @@ void init() {
 	SHOW_BKG;
 	SHOW_SPRITES;
 	DISPLAY_ON;
+}
+
+char checkColision(int x, int y) {
+	end = (((y / 8) * 20) + (x / 8));
+	
+	return colisionTest[end];
 }
