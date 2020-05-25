@@ -4,6 +4,7 @@
 
 #include "palettes.h"
 
+#include "assets/tilesets/sprites_01.h"
 #include "assets/tilesets/exterior_01.h"
 #include "assets/tilesets/interior_01.h"
 #include "assets/maps/town_01.h"
@@ -240,11 +241,16 @@ void init() {
 	set_win_data(tileset1Len, borderLen, border);
 	set_win_tiles(0, 0, windowWidth, windowHeight, window); */
 	
-	SPRITES_8x8;
-	set_sprite_palette(0, 8, exterior_01_palettes);
-	set_sprite_data(0, exterior_01Len, exterior_01);
-	set_sprite_tile(0, 1);
+	SPRITES_8x16;
+	set_sprite_palette(0, 8, sprites_01_palettes);
+	VBK_REG = 1;
+	set_sprite_data(0, sprites_01Len, sprites_01CGB);
+	VBK_REG = 0;
+	set_sprite_data(0, sprites_01Len * 2, sprites_01);
+	set_sprite_tile(0, 2);
+	set_sprite_tile(1, 4);
 	move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+	move_sprite(1, player[PLAYER_POSITION_X] + 8, player[PLAYER_POSITION_Y]);
 	
 	
 	SHOW_SPRITES;
