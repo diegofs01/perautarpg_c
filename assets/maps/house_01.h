@@ -22,6 +22,7 @@
 #define house_01Height 16
 #define house_01Bank 0
 
-extern unsigned char house_01[];
+extern unsigned char house_01_tiledata[];
+extern unsigned char house_01_attributes[];
 
 /* End of HOUSE_01.H */

@@ -5,7 +5,9 @@
 #include "palettes.h"
 
 #include "assets/tilesets/exterior_01.h"
+#include "assets/tilesets/interior_01.h"
 #include "assets/maps/town_01.h"
+#include "assets/maps/house_01.h"
 
 #define MAX_X_LIMITATION 160
 #define MIN_X_LIMITATION 16
@@ -43,13 +45,15 @@ int player[2];
 
 int mapX = 152, mapY = 144, end;
 int i = 0, spriteBackupX = 0, spriteBackupY = 0;
-	
+
+UBYTE activeMap = 0;
 UBYTE menuPos = 0;
 UBYTE currentKey;
 
 void init();
 void captureInput();
 char checkColision(int x, int y);
+void loadMap();
 
 void main() {
 	
@@ -120,25 +124,33 @@ void captureInput() {
 	}
 	
 	//Arrumar depois (Diego)
-	/* if (currentKey & J_START) {
+	if (currentKey & J_START) {
+		
+			if (activeMap == 0) {
+				activeMap = 1;
+			} else {
+				activeMap = 0;
+			}
 			
-			spriteBackupX = player[PLAYER_POSITION_X];
-			spriteBackupY = player[PLAYER_POSITION_X];
+			loadMap();
 			
-			set_sprite_data(0, borderLen, border);
-			set_sprite_tile(0, 35);
+			//spriteBackupX = player[PLAYER_POSITION_X];
+			//spriteBackupY = player[PLAYER_POSITION_X];
 			
-			player[PLAYER_POSITION_X] = 16;
-			player[PLAYER_POSITION_Y] = 136;
+			//set_sprite_data(0, borderLen, border);
+			//set_sprite_tile(0, 35);
 			
-			move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+			//player[PLAYER_POSITION_X] = 16;
+			//player[PLAYER_POSITION_Y] = 136;
 			
-			move_win(7,112);
-			SHOW_WIN;
+			//move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
 			
-			delay(150);
+			//move_win(7,112);
+			//SHOW_WIN;
 			
-			while(1) {
+			delay(1000);
+			
+			/* while(1) {
 				currentKey = joypad();
 				if(currentKey & J_START) {
 					menuPos = 0;
@@ -207,9 +219,9 @@ void captureInput() {
 					
 				}
 				delay(150);
-			}
+			} */
 
-		} */
+		} 
 }
 
 void init() {
@@ -217,11 +229,9 @@ void init() {
 	player[PLAYER_POSITION_X] = 70;
 	player[PLAYER_POSITION_Y] = 100;
 	
-	DISPLAY_OFF;
+	loadMap();
 	
-	set_bkg_palette(0, 8, exterior_01_palettes);
-	set_bkg_data(0, exterior_01Len, exterior_01);
-	set_bkg_tiles(0, 0, town_01Width, town_01Height, town_01);	
+	DISPLAY_OFF;
 	
 /* 	while(i < (windowWidth * windowHeight)) {
 		window[i] += exterior_01Len;
@@ -236,7 +246,7 @@ void init() {
 	set_sprite_tile(0, 1);
 	move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
 	
-	SHOW_BKG;
+	
 	SHOW_SPRITES;
 	DISPLAY_ON;
 }
@@ -245,4 +255,35 @@ char checkColision(int x, int y) {
 	end = (((y / 8) * 20) + (x / 8));
 	
 	return colisionTest[end];
+}
+
+void loadMap() {
+	DISPLAY_OFF;
+	HIDE_BKG;
+	
+	switch(activeMap) {
+		
+		default:
+		case 0:
+			set_bkg_palette(0, 8, exterior_01_palettes);
+			set_bkg_data(0, exterior_01Len, exterior_01);
+			VBK_REG = 1;
+			set_bkg_tiles(0, 0, town_01Width, town_01Height, town_01_attributes);
+			VBK_REG = 0;
+			set_bkg_tiles(0, 0, town_01Width, town_01Height, town_01_tiledata);
+			break;
+			
+		case 1:
+			set_bkg_palette(0, 8, interior_01_palettes);
+			set_bkg_data(0, interior_01Len, interior_01);
+			VBK_REG = 1;
+			set_bkg_tiles(0, 0, house_01Width, house_01Height, house_01_attributes);
+			VBK_REG = 0;
+			set_bkg_tiles(0, 0, house_01Width, house_01Height, house_01_tiledata);
+			break;
+	} 
+	
+	SHOW_BKG;
+	DISPLAY_ON;
+	wait_vbl_done();
 }

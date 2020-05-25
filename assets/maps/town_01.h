@@ -9,7 +9,7 @@
    Bank          : 0
    Map size      : 20 x 16
    Tile set      : C:\Users\diego\Desktop\gbdk\perautarpg\assets\tilesets\exterior_01.gbr
-   Plane count   : 1 plane (8 bits)
+   Plane count   : 2 planes (16 bits)
    Plane order   : Tiles are continues
    Tile offset   : 0
    Split data    : No
@@ -22,6 +22,8 @@
 #define town_01Height 16
 #define town_01Bank 0
 
-extern unsigned char town_01[];
+extern unsigned char town_01_attributes[];
+extern unsigned char town_01_tiledata[];
+
 
 /* End of TOWN_01.H */
