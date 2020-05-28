@@ -1,6 +1,6 @@
 #include <gb/gb.h> 
 #include <gb/cgb.h> 
-#include <stdio.h>
+#include <stdlib.h>
 
 #include "palettes.h"
 
@@ -9,6 +9,8 @@
 #include "assets/tilesets/interior_01.h"
 #include "assets/maps/town_01.h"
 #include "assets/maps/house_01.h"
+#include "assets/border.h"
+#include "assets/window.h"
 
 #define MAX_X_LIMITATION 160
 #define MIN_X_LIMITATION 16
@@ -43,6 +45,7 @@ unsigned char colisionTest[400] = {
  };
 
 int player[2];
+char teste[3];
 
 int mapX = 152, mapY = 144, end;
 int i = 0, spriteBackupX = 0, spriteBackupY = 0;
@@ -55,6 +58,8 @@ void init();
 void captureInput();
 char checkColision(int x, int y);
 void loadMap();
+void testeBkgDinamico();
+char retornarTile(int numero);
 
 void main() {
 	
@@ -63,6 +68,9 @@ void main() {
 	while(1) {
 		captureInput();
 		delay(100);
+		
+		testeBkgDinamico();
+		
 		wait_vbl_done();
 	}
 }
@@ -76,6 +84,7 @@ void captureInput() {
 			if(!checkColision(player[PLAYER_POSITION_X] + 8, player[PLAYER_POSITION_Y]) ) {
 				player[PLAYER_POSITION_X] += SCROLL_MOVE;
 				move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+				move_sprite(1, player[PLAYER_POSITION_X] + 8, player[PLAYER_POSITION_Y]);
 			}
 		} else {
 			if (mapX < ((town_01Width - 1) * 8)) {
@@ -89,6 +98,7 @@ void captureInput() {
 			if(!checkColision(player[PLAYER_POSITION_X] - 8, player[PLAYER_POSITION_Y]) ) {
 				player[PLAYER_POSITION_X] -= SCROLL_MOVE;
 				move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+				move_sprite(1, player[PLAYER_POSITION_X] + 8, player[PLAYER_POSITION_Y]);
 			}
 		} else {
 			if (mapX > 160) {
@@ -102,6 +112,7 @@ void captureInput() {
 			if(!checkColision(player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y] - 8) ) {
 				player[PLAYER_POSITION_Y] -= SCROLL_MOVE;
 				move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+				move_sprite(1, player[PLAYER_POSITION_X] + 8, player[PLAYER_POSITION_Y]);
 			}
 		} else {
 			if(mapY > 152) {
@@ -115,6 +126,7 @@ void captureInput() {
 			if(!checkColision(player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y] + 8) ) {
 				player[PLAYER_POSITION_Y] += SCROLL_MOVE;
 				move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
+				move_sprite(1, player[PLAYER_POSITION_X] + 8, player[PLAYER_POSITION_Y]);
 			}
 		} else {
 			if(mapY < (town_01Height * SCROLL_MOVE)) {
@@ -230,28 +242,28 @@ void init() {
 	player[PLAYER_POSITION_X] = 70;
 	player[PLAYER_POSITION_Y] = 100;
 	
+	while(i < (windowWidth * windowHeight)) {
+		window_tiledata[i] += 89;
+		i++;
+	}
+	
+	set_bkg_data(89, borderLen, border);
+	
 	loadMap();
 	
 	DISPLAY_OFF;
 	
-/* 	while(i < (windowWidth * windowHeight)) {
-		window[i] += exterior_01Len;
-		i++;
-	}
-	set_win_data(tileset1Len, borderLen, border);
-	set_win_tiles(0, 0, windowWidth, windowHeight, window); */
-	
 	SPRITES_8x16;
 	set_sprite_palette(0, 8, sprites_01_palettes);
-	VBK_REG = 1;
-	set_sprite_data(0, sprites_01Len, sprites_01CGB);
+	
+	set_sprite_prop(0, sprites_01CGB[1]);
+	set_sprite_prop(1, sprites_01CGB[2]);
 	VBK_REG = 0;
 	set_sprite_data(0, sprites_01Len * 2, sprites_01);
 	set_sprite_tile(0, 2);
 	set_sprite_tile(1, 4);
 	move_sprite(0, player[PLAYER_POSITION_X], player[PLAYER_POSITION_Y]);
 	move_sprite(1, player[PLAYER_POSITION_X] + 8, player[PLAYER_POSITION_Y]);
-	
 	
 	SHOW_SPRITES;
 	DISPLAY_ON;
@@ -271,7 +283,7 @@ void loadMap() {
 		
 		default:
 		case 0:
-			set_bkg_palette(0, 8, exterior_01_palettes);
+			set_bkg_palette(0, 7, exterior_01_palettes);
 			set_bkg_data(0, exterior_01Len, exterior_01);
 			VBK_REG = 1;
 			set_bkg_tiles(0, 0, town_01Width, town_01Height, town_01_attributes);
@@ -280,16 +292,85 @@ void loadMap() {
 			break;
 			
 		case 1:
-			set_bkg_palette(0, 8, interior_01_palettes);
+			set_bkg_palette(0, 7, interior_01_palettes);
 			set_bkg_data(0, interior_01Len, interior_01);
 			VBK_REG = 1;
 			set_bkg_tiles(0, 0, house_01Width, house_01Height, house_01_attributes);
 			VBK_REG = 0;
 			set_bkg_tiles(0, 0, house_01Width, house_01Height, house_01_tiledata);
 			break;
-	} 
+	}
+	
+	set_bkg_palette(7, 1, border_palettes);
+	VBK_REG = 1;
+	set_bkg_tiles(0, 16, windowWidth, windowHeight, window_attributes);
+	VBK_REG = 0;	
+	set_bkg_tiles(0, 16, windowWidth, windowHeight, window_tiledata);
 	
 	SHOW_BKG;
 	DISPLAY_ON;
 	wait_vbl_done();
+}
+
+void testeBkgDinamico() {
+	int tempVar = 0;
+	int tempVar2 = 0;
+	
+	if(player[0] >= 100) {
+		set_bkg_tiles(8, 16, 1, 1, 0x1C);
+		tempVar = player[0] - 100;
+	} else {
+		set_bkg_tiles(8, 16, 1, 1, 0x1B);
+		tempVar = player[0];
+	}
+	if(tempVar >= 10) {
+		tempVar = tempVar / 10;
+		set_bkg_tiles(9, 16, 1, 1, retornarTile(tempVar));	
+		
+	} else {
+		set_bkg_tiles(9, 16, 1, 1, 0x1B);
+		
+		set_bkg_tiles(10, 16, 1, 1, retornarTile(tempVar));
+	}
+}
+
+char retornarTile(int numero) {
+	unsigned char teste = 0x01;
+	switch(numero) {
+		default:
+			teste = 0x01;
+			break;
+		case 0:
+			teste = 0x1B;
+			break;
+		case 1:
+			teste = 0x1C;
+			break;
+		case 2:
+			teste = 0x1D;
+			break;
+		case 3:
+			teste = 0x1E;
+			break;
+		case 4:
+			teste = 0x1F;
+			break;
+		case 5:
+			teste = 0x20;
+			break;
+		case 6:
+			teste = 0x21;
+			break;
+		case 7:
+			teste = 0x22;
+			break;
+		case 8:
+			teste = 0x23;
+			break;
+		case 9:
+			teste = 0x24;
+			break;
+	}
+	teste += 89;
+	return teste;
 }

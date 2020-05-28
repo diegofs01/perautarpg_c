@@ -22,6 +22,7 @@
 #define windowHeight 4
 #define windowBank 0
 
-extern unsigned char window[];
+extern unsigned char window_tiledata[];
+extern unsigned char window_attributes[];
 
 /* End of WINDOW.H */

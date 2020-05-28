@@ -10,11 +10,11 @@
   Compression          : None.
   Counter              : Tile-count as Constant.
   Tile size            : 8 x 8
-  Tiles                : 0 to 35
+  Tiles                : 0 to 38
 
   Palette colors       : Included.
   SGB Palette          : None.
-  CGB Palette          : Constant per entry.
+  CGB Palette          : 1 Byte per entry.
 
   Convert to metatiles : No.
 
@@ -51,10 +51,10 @@
 #define borderSGBPal3c3 5344
 
 /* Gameboy Color palette 0 */
-#define borderCGBPal0c0 992
-#define borderCGBPal0c1 512
-#define borderCGBPal0c2 32767
-#define borderCGBPal0c3 0
+#define borderCGBPal0c0 6076
+#define borderCGBPal0c1 8935
+#define borderCGBPal0c2 6596
+#define borderCGBPal0c3 5344
 
 /* Gameboy Color palette 1 */
 #define borderCGBPal1c0 6076
@@ -93,50 +93,14 @@
 #define borderCGBPal6c3 5344
 
 /* Gameboy Color palette 7 */
-#define borderCGBPal7c0 6076
-#define borderCGBPal7c1 8935
-#define borderCGBPal7c2 6596
-#define borderCGBPal7c3 5344
-
-/* CGB palette entries. */
-#define borderCGB0 0
-#define borderCGB1 0
-#define borderCGB2 0
-#define borderCGB3 0
-#define borderCGB4 0
-#define borderCGB5 0
-#define borderCGB6 0
-#define borderCGB7 0
-#define borderCGB8 0
-#define borderCGB9 0
-#define borderCGB10 0
-#define borderCGB11 0
-#define borderCGB12 0
-#define borderCGB13 0
-#define borderCGB14 0
-#define borderCGB15 0
-#define borderCGB16 0
-#define borderCGB17 0
-#define borderCGB18 0
-#define borderCGB19 0
-#define borderCGB20 0
-#define borderCGB21 0
-#define borderCGB22 0
-#define borderCGB23 0
-#define borderCGB24 0
-#define borderCGB25 0
-#define borderCGB26 0
-#define borderCGB27 0
-#define borderCGB28 0
-#define borderCGB29 0
-#define borderCGB30 0
-#define borderCGB31 0
-#define borderCGB32 0
-#define borderCGB33 0
-#define borderCGB34 0
-#define borderCGB35 0
+#define borderCGBPal7c0 32767
+#define borderCGBPal7c1 25368
+#define borderCGBPal7c2 16912
+#define borderCGBPal7c3 0
+/* CGBpalette entries. */
+extern unsigned char borderCGB[];
 /* Start of tile array. */
 extern unsigned char border[];
-#define borderLen 36
+#define borderLen 39
 
 /* End of BORDER.H */
