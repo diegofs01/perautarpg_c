@@ -59,6 +59,7 @@ void captureInput();
 char checkColision(int x, int y);
 void loadMap();
 void testeBkgDinamico();
+void teste2(unsigned char *tiles, int posicao);
 
 void main() {
 	
@@ -319,35 +320,16 @@ void testeBkgDinamico() {
 	// array pra armazenar os ids dos tiles e para nao bugar o set_bkg_tiles
 	unsigned char tiles[3] = {125, 125, 125};
 	
-	//posição X da sprite do jogador
-	int posicao = player[0];
-	
 	// renderizar a posição X da sprite na 'barra de status'
-	if(posicao >= 100) {
-		tiles[2] = (posicao % 10) + 116;
-		posicao /= 10;
-		tiles[1] = (posicao % 10) + 116;
-		posicao /= 10;
-		tiles[0] = (posicao % 10) + 116;
-	} else {
-		if(posicao >= 10) {
-			tiles[0] = 116;
-			tiles[2] = (posicao % 10) + 116;
-			posicao /= 10;
-			tiles[1] = posicao + 116;
-		} else {
-			tiles[0] = 116;
-			tiles[1] = 116;
-			tiles[2] = posicao + 116;
-		}
-	}
-	
+	teste2(tiles, player[0]);
 	set_bkg_tiles(8, 16, 3, 1, tiles);
 	
-	//posição Y da sprite do jogador
-	posicao = player[1];
-	
 	// renderizar a posição Y da sprite na 'barra de status'
+	teste2(tiles, player[1]);
+	set_bkg_tiles(8, 17, 3, 1, tiles);
+}
+
+void teste2(unsigned char *tiles, int posicao) {
 	if(posicao >= 100) {
 		tiles[2] = (posicao % 10) + 116;
 		posicao /= 10;
@@ -366,6 +348,4 @@ void testeBkgDinamico() {
 			tiles[2] = posicao + 116;
 		}
 	}
-	
-	set_bkg_tiles(8, 17, 3, 1, tiles);
 }
