@@ -59,7 +59,6 @@ void captureInput();
 char checkColision(int x, int y);
 void loadMap();
 void testeBkgDinamico();
-char retornarTile(int numero);
 
 void main() {
 	
@@ -300,10 +299,7 @@ void loadMap() {
 			set_bkg_tiles(0, 0, house_01Width, house_01Height, house_01_tiledata);
 			break;
 	}
-	
-	//set_bkg_palette(7, 1, border_palettes);
-	//VBK_REG = 1;
-	//set_bkg_tiles(0, 16, windowWidth, windowHeight, window_attributes);
+
 	VBK_REG = 0;	
 	set_bkg_tiles(0, 16, windowWidth, windowHeight, window_tiledata);
 	
@@ -315,87 +311,61 @@ void loadMap() {
 void testeBkgDinamico() {
 	
 	//por algum motivo o gameboy/bgb odeia o numero 125 ://////////
+	/* os tiles numerais começa no 116 (0x74)
+	   logo pega a variavel/numero e adiciona 116
+	   por exemplo: numero 1 = tile 117, 
+	                numero 2 = tile 118, etc */
 	
-	int tempVar2 = player[0];
-	unsigned char tempVar[3] = {125, 125, 125};
+	// array pra armazenar os ids dos tiles e para nao bugar o set_bkg_tiles
+	unsigned char tiles[3] = {125, 125, 125};
 	
-	if(tempVar2 >= 100) {
-		tempVar[2] = retornarTile(tempVar2 % 10);
-		tempVar2 /= 10;
-		tempVar[1] = retornarTile(tempVar2 % 10);
-		tempVar2 /= 10;
-		tempVar[0] = retornarTile(tempVar2);
+	//posição X da sprite do jogador
+	int posicao = player[0];
+	
+	// renderizar a posição X da sprite na 'barra de status'
+	if(posicao >= 100) {
+		tiles[2] = (posicao % 10) + 116;
+		posicao /= 10;
+		tiles[1] = (posicao % 10) + 116;
+		posicao /= 10;
+		tiles[0] = (posicao % 10) + 116;
 	} else {
-		if(tempVar2 >= 10) {
-			tempVar[0] = 116;
-			tempVar[2] = retornarTile(tempVar2 % 10);
-			tempVar2 /= 10;
-			tempVar[1] = retornarTile(tempVar2);
+		if(posicao >= 10) {
+			tiles[0] = 116;
+			tiles[2] = (posicao % 10) + 116;
+			posicao /= 10;
+			tiles[1] = posicao + 116;
 		} else {
-			tempVar[0] = 116;
-			tempVar[1] = 116;
-			tempVar[2] = retornarTile(tempVar2);
+			tiles[0] = 116;
+			tiles[1] = 116;
+			tiles[2] = posicao + 116;
 		}
 	}
 	
-	set_bkg_tiles(8, 16, 3, 1, tempVar);
+	set_bkg_tiles(8, 16, 3, 1, tiles);
 	
-	tempVar2 = player[1];
+	//posição Y da sprite do jogador
+	posicao = player[1];
 	
-	if(tempVar2 >= 100) {
-		tempVar[2] = retornarTile(tempVar2 % 10);
-		tempVar2 /= 10;
-		tempVar[1] = retornarTile(tempVar2 % 10);
-		tempVar2 /= 10;
-		tempVar[0] = retornarTile(tempVar2);
+	// renderizar a posição Y da sprite na 'barra de status'
+	if(posicao >= 100) {
+		tiles[2] = (posicao % 10) + 116;
+		posicao /= 10;
+		tiles[1] = (posicao % 10) + 116;
+		posicao /= 10;
+		tiles[0] = (posicao % 10) + 116;
 	} else {
-		if(tempVar2 >= 10) {
-			tempVar[0] = 116;
-			tempVar[2] = retornarTile(tempVar2 % 10);
-			tempVar2 /= 10;
-			tempVar[1] = retornarTile(tempVar2);
+		if(posicao >= 10) {
+			tiles[0] = 116;
+			tiles[2] = (posicao % 10) + 116;
+			posicao /= 10;
+			tiles[1] = posicao + 116;
 		} else {
-			tempVar[0] = 116;
-			tempVar[1] = 116;
-			tempVar[2] = retornarTile(tempVar2);
+			tiles[0] = 116;
+			tiles[1] = 116;
+			tiles[2] = posicao + 116;
 		}
 	}
 	
-	set_bkg_tiles(8, 17, 3, 1, tempVar);
-}
-
-char retornarTile(int numero) {
-	unsigned char teste = 0;
-	switch(numero) {
-		case 0:
-			teste = 116;
-			break;
-		case 1:
-			teste = 117;
-			break;
-		case 2:
-			teste = 118;
-			break;
-		case 3:
-			teste = 119;
-			break;
-		case 4:
-			teste = 120;
-			break;
-		case 5:
-			teste = 121;
-			break;
-		case 6:
-			teste = 122;
-			break;
-		case 7:
-			teste = 123;
-			break;
-		case 8:
-			teste = 124;
-			break;
-		case 9:
-			teste = 125;
-	}
-	return teste;
+	set_bkg_tiles(8, 17, 3, 1, tiles);
 }
