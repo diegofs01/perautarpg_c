@@ -301,9 +301,9 @@ void loadMap() {
 			break;
 	}
 	
-	set_bkg_palette(7, 1, border_palettes);
-	VBK_REG = 1;
-	set_bkg_tiles(0, 16, windowWidth, windowHeight, window_attributes);
+	//set_bkg_palette(7, 1, border_palettes);
+	//VBK_REG = 1;
+	//set_bkg_tiles(0, 16, windowWidth, windowHeight, window_attributes);
 	VBK_REG = 0;	
 	set_bkg_tiles(0, 16, windowWidth, windowHeight, window_tiledata);
 	
@@ -313,64 +313,89 @@ void loadMap() {
 }
 
 void testeBkgDinamico() {
-	int tempVar = 0;
-	int tempVar2 = 0;
 	
-	if(player[0] >= 100) {
-		set_bkg_tiles(8, 16, 1, 1, 0x1C);
-		tempVar = player[0] - 100;
+	//por algum motivo o gameboy/bgb odeia o numero 125 ://////////
+	
+	int tempVar2 = player[0];
+	unsigned char tempVar[3] = {125, 125, 125};
+	
+	if(tempVar2 >= 100) {
+		tempVar[2] = retornarTile(tempVar2 % 10);
+		tempVar2 /= 10;
+		tempVar[1] = retornarTile(tempVar2 % 10);
+		tempVar2 /= 10;
+		tempVar[0] = retornarTile(tempVar2);
 	} else {
-		set_bkg_tiles(8, 16, 1, 1, 0x1B);
-		tempVar = player[0];
+		if(tempVar2 >= 10) {
+			tempVar[0] = 116;
+			tempVar[2] = retornarTile(tempVar2 % 10);
+			tempVar2 /= 10;
+			tempVar[1] = retornarTile(tempVar2);
+		} else {
+			tempVar[0] = 116;
+			tempVar[1] = 116;
+			tempVar[2] = retornarTile(tempVar2);
+		}
 	}
-	if(tempVar >= 10) {
-		tempVar = tempVar / 10;
-		set_bkg_tiles(9, 16, 1, 1, retornarTile(tempVar));	
-		
+	
+	set_bkg_tiles(8, 16, 3, 1, tempVar);
+	
+	tempVar2 = player[1];
+	
+	if(tempVar2 >= 100) {
+		tempVar[2] = retornarTile(tempVar2 % 10);
+		tempVar2 /= 10;
+		tempVar[1] = retornarTile(tempVar2 % 10);
+		tempVar2 /= 10;
+		tempVar[0] = retornarTile(tempVar2);
 	} else {
-		set_bkg_tiles(9, 16, 1, 1, 0x1B);
-		
-		set_bkg_tiles(10, 16, 1, 1, retornarTile(tempVar));
+		if(tempVar2 >= 10) {
+			tempVar[0] = 116;
+			tempVar[2] = retornarTile(tempVar2 % 10);
+			tempVar2 /= 10;
+			tempVar[1] = retornarTile(tempVar2);
+		} else {
+			tempVar[0] = 116;
+			tempVar[1] = 116;
+			tempVar[2] = retornarTile(tempVar2);
+		}
 	}
+	
+	set_bkg_tiles(8, 17, 3, 1, tempVar);
 }
 
 char retornarTile(int numero) {
-	unsigned char teste = 0x01;
+	unsigned char teste = 0;
 	switch(numero) {
-		default:
-			teste = 0x01;
-			break;
 		case 0:
-			teste = 0x1B;
+			teste = 116;
 			break;
 		case 1:
-			teste = 0x1C;
+			teste = 117;
 			break;
 		case 2:
-			teste = 0x1D;
+			teste = 118;
 			break;
 		case 3:
-			teste = 0x1E;
+			teste = 119;
 			break;
 		case 4:
-			teste = 0x1F;
+			teste = 120;
 			break;
 		case 5:
-			teste = 0x20;
+			teste = 121;
 			break;
 		case 6:
-			teste = 0x21;
+			teste = 122;
 			break;
 		case 7:
-			teste = 0x22;
+			teste = 123;
 			break;
 		case 8:
-			teste = 0x23;
+			teste = 124;
 			break;
 		case 9:
-			teste = 0x24;
-			break;
+			teste = 125;
 	}
-	teste += 89;
 	return teste;
 }
