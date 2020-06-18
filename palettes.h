@@ -10,7 +10,8 @@ UWORD exterior_01_palettes[] = {
 	RGB(0, 24, 0), RGB(16, 8, 0), RGB(0, 8, 0), RGB(0, 0, 0),
 	RGB(28, 29, 5), RGB(7, 23, 8), RGB(4, 14, 6), RGB(0, 7, 5),
 	RGB(28, 29, 5), RGB(7, 23, 8), RGB(4, 14, 6), RGB(0, 7, 5),
-	RGB(28, 29, 5), RGB(7, 23, 8), RGB(4, 14, 6), RGB(0, 7, 5)
+	RGB(28, 29, 5), RGB(7, 23, 8), RGB(4, 14, 6), RGB(0, 7, 5),
+	RGB(31, 31, 31), RGB(24, 24, 24), RGB(16, 0, 0), RGB(8, 8, 8)
 };
 
 UWORD interior_01_palettes[] = {

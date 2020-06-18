@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : Tile-count as Constant.
   Tile size            : 8 x 8
-  Tiles                : 0 to 28
+  Tiles                : 0 to 63
 
   Palette colors       : Included.
   SGB Palette          : None.
@@ -101,6 +101,6 @@
 extern unsigned char exterior_01CGB[];
 /* Start of tile array. */
 extern unsigned char exterior_01[];
-#define exterior_01Len 29
+#define exterior_01Len 64
 
 /* End of EXTERIOR_01.H */

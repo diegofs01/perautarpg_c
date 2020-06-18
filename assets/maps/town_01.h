@@ -24,6 +24,9 @@
 
 extern unsigned char town_01_attributes[];
 extern unsigned char town_01_tiledata[];
+extern unsigned char town_01_colision[];
+extern int town_01_playerStartPos[];
+extern unsigned char town_01_warps[];
 
 
 /* End of TOWN_01.H */
