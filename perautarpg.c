@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "palettes.h"
+#include "./assets/mapList.h"
 
 #include "assets/tilesets/sprites_01.h"
 #include "assets/tilesets/exterior_01.h"
@@ -22,40 +23,6 @@
 #define PLAYER_POSITION_X 0
 #define PLAYER_POSITION_Y 1
 
-unsigned char colisionTest[400] = { 
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 2, 2, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1,
-	1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-};
- 
-typedef struct {
-	char tilesetName[15]; unsigned char data[64]; UWORD palletes[8*8]; UINT8 length;
-} Tileset;
- 
-typedef struct {
-	char mapName[8]; UINT8 width; UINT8 height; unsigned char tiledata[20*16]; unsigned char attributes[20*16]; int tilesetId;
-} Mapa;
-
-Tileset tilesets[2];
-Mapa mapas[2];
-
 int player[2];
 char teste[3];
 
@@ -66,7 +33,6 @@ UBYTE mapaAtual = 0;
 UBYTE menuPos = 0;
 UBYTE currentKey;
 
-void preInit();
 void init();
 void captureInput();
 char checkColision(int x, int y);
@@ -75,10 +41,7 @@ void mostrarPosicaoSprite();
 void player_pos_to_map_tile(unsigned char *tiles, int posicao);
 void render_map_info(int mapId);
 
-void main() {
-	
-	preInit();
-	
+void main() {	
 	init();
 	
 	while(1) {
@@ -88,32 +51,6 @@ void main() {
 		wait_vbl_done();
 	}
 }
-
- void preInit() {
-	strcpy(tilesets[0].tilesetName, "exterior_01");
-	strcpy(tilesets[0].data, exterior_01);
-	strcpy(tilesets[0].palletes, exterior_01_palettes);
-	tilesets[0].length = exterior_01Len;
-	
-	/* strcpy(tilesets[1].tilesetName, "interior_01");
-	strcpy(tilesets[1].data, interior_01);
-	strcpy(tilesets[1].palletes, interior_01_palettes);
-	tilesets[1].length = interior_01Len; */
-	
-	strcpy(mapas[0].mapName, "town_01");
-	mapas[0].width = town_01Width;
-	mapas[0].height = town_01Height;
-	memcpy(mapas[0].tiledata, town_01_tiledata, 20*16);
-	memcpy(mapas[0].attributes, town_01_attributes, 20*16);
-	mapas[0].tilesetId = 0;
-	
-	/* strcpy(mapas[1].mapName, "house_01"); 
-	mapas[1].width = house_01Width;
-	mapas[1].height = house_01Height;
-	strcpy(mapas[1].tiledata, house_01_tiledata);
-	strcpy(mapas[1].attributes, house_01_attributes);
-	mapas[1].tilesetId = 1; */
-} 
 
 void captureInput() {
 			
